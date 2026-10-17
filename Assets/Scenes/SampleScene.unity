@@ -1304,7 +1304,7 @@ GameObject:
   - component: {fileID: 920458372}
   m_Layer: 0
   m_Name: Donat
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1463,7 +1463,7 @@ MonoBehaviour:
   patrolSpeed: 4
   chargeSpeed: 8
   yTolerance: 0.6
-  detectionDistance: 8
+  detectionDistance: 5
   wallCheck: {fileID: 829810504}
   pitCheck: {fileID: 586662892}
   checkRadius: 0.2
