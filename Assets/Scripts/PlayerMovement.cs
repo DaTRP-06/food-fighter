@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private LayerMask jumpableGround;
 
     [HideInInspector] public bool isKnockedBack;
+    public CollectibleManager cm;
 
     // attack variables
     [SerializeField] private GameObject projectilePrefab;
@@ -133,5 +134,14 @@ public class PlayerMovement : MonoBehaviour
             Vector2.down,
             .1f,
             jumpableGround);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Collectible"))
+        {
+            cm.itemCount++;
+            Destroy(other.gameObject);
+        }
     }
 }
