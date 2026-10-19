@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class DonutEnemy : MonoBehaviour
 {
+    [Header("Damage Settings")]
+    public int damageAmount = 1;
+
     [Header("Movement Speed")]
     public float patrolSpeed = 4f;
     public float chargeSpeed = 8f;
@@ -9,6 +12,7 @@ public class DonutEnemy : MonoBehaviour
     [Header("Target & Detection Settings")]
     public float yTolerance = 0.6f;
     public float detectionDistance = 8f;
+    public float chargeCooldownDuration = 1.5f;
     
     [Header("Wall & Pit Detection")]
     public Transform wallCheck;
@@ -21,6 +25,7 @@ public class DonutEnemy : MonoBehaviour
     private Transform playerTransform;
     private bool movingRight = true;
     private bool isCharging = false;
+    private float chargeCooldownTimer = 0f;
 
     void Start()
     {
@@ -35,7 +40,16 @@ public class DonutEnemy : MonoBehaviour
 
     void Update()
     {
-        DetectPlayer();
+        if (chargeCooldownTimer > 0f)
+        {
+            chargeCooldownTimer -= Time.deltaTime;
+            isCharging = false;
+        }
+        else
+        {
+            DetectPlayer();
+        }
+
         Move();
         CheckObstacles();
     }
@@ -104,6 +118,23 @@ public class DonutEnemy : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerStatus player = collision.gameObject.GetComponent<PlayerStatus>();
+            if (player != null)
+            {
+                player.TakeDamage(damageAmount, transform.position);
+
+                chargeCooldownTimer = chargeCooldownDuration;
+                isCharging = false;
+
+                Flip();
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()

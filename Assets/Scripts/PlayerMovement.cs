@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpHeight = 10f;
     [SerializeField] private LayerMask jumpableGround;
 
+    [HideInInspector] public bool isKnockedBack;
+
     // attack variables
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
@@ -31,12 +33,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (isKnockedBack) return;
+
         if (attackTimer > 0f)
         {
             attackTimer -= Time.deltaTime;
-
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-
             return;
         }
 
