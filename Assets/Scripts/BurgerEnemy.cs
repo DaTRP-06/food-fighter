@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class BurgerEnemy : MonoBehaviour
 {
+    [Header("Damage Settings")]
+    public int damageAmount = 1;
+
     [Header("Movement")]
     public float moveSpeed = 2f;
     
@@ -43,7 +46,6 @@ public class BurgerEnemy : MonoBehaviour
         if (pitCheck != null)
         {
             RaycastHit2D groundInfo = Physics2D.Raycast(pitCheck.position, Vector2.down, pitCheckDistance, groundLayer);
-            // Jika raycast TIDAK mengenai tanah, artinya ada jurang di depan
             isNearPit = groundInfo.collider == null;
         }
 
@@ -60,6 +62,20 @@ public class BurgerEnemy : MonoBehaviour
         Vector3 scale = transform.localScale;
         scale.x *= -1;
         transform.localScale = scale;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerStatus player = collision.gameObject.GetComponent<PlayerStatus>();
+            if (player != null)
+            {
+                player.TakeDamage(damageAmount, transform.position);
+
+                Flip();
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()
