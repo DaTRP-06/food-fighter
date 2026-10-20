@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 5f;
-    [SerializeField] private float jumpHeight = 10f;
+    [SerializeField] private float jumpHeight = 12f;
     [SerializeField] private LayerMask jumpableGround;
 
     [HideInInspector] public bool isKnockedBack;
@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
     [SerializeField] private float attackDuration = 0.3f;
-    [SerializeField] private float spawnDelay = 0.3f;
+    [SerializeField] private float spawnDelay = 0.02f;
     private float attackTimer = 0f;
 
     private Rigidbody2D rb;
