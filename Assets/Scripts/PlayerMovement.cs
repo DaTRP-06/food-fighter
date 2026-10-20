@@ -7,6 +7,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpHeight = 10f;
     [SerializeField] private LayerMask jumpableGround;
 
+    [HideInInspector] public bool isKnockedBack;
+    public CollectibleManager cm;
+
     // attack variables
     [SerializeField] private GameObject projectilePrefab;
     [SerializeField] private Transform firePoint;
@@ -31,12 +34,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (isKnockedBack) return;
+
         if (attackTimer > 0f)
         {
             attackTimer -= Time.deltaTime;
-
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
-
             return;
         }
 
@@ -131,5 +134,14 @@ public class PlayerMovement : MonoBehaviour
             Vector2.down,
             .1f,
             jumpableGround);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Collectible"))
+        {
+            cm.itemCount++;
+            Destroy(other.gameObject);
+        }
     }
 }
