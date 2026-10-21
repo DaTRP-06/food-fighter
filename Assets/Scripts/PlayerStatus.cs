@@ -7,6 +7,9 @@ public class PlayerStatus : MonoBehaviour
     public int maxHealth = 3;
     public int currentHealth;
 
+    [Header("UI Reference")]
+    public HealthUI healthUI;
+
     [Header("Knockback Settings")]
     public Vector2 knockbackForce = new Vector2(7f, 9f);
     public float knockbackDuration = 0.25f;
@@ -36,6 +39,16 @@ public class PlayerStatus : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerCollider = GetComponent<Collider2D>();
 
+        if (healthUI != null)
+        {
+            healthUI.InitializeHearts(maxHealth);
+        }
+
+        if (sprite != null)
+        {
+            originalMaterial = sprite.material;
+        }
+
         if (sprite != null)
         {
             originalMaterial = sprite.material;
@@ -56,6 +69,11 @@ public class PlayerStatus : MonoBehaviour
         if (isInvulnerable || isDead) return;
 
         currentHealth -= damage;
+
+        if (healthUI != null)
+        {
+            healthUI.UpdateHearts(currentHealth);
+        }
 
         if (currentHealth <= 0)
         {
