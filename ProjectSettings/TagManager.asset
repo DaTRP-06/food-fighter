@@ -44,5 +44,26 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: 1Sky
+    uniqueID: 1134528085
+    locked: 0
+  - name: 2Cloudfar
+    uniqueID: 3884679967
+    locked: 0
+  - name: 3Cloud
+    uniqueID: 541741273
+    locked: 0
+  - name: 4Mountain
+    uniqueID: 1142357699
+    locked: 0
+  - name: 5Decoration
+    uniqueID: 2818500235
+    locked: 0
+  - name: Player
+    uniqueID: 3876726945
+    locked: 0
+  - name: 6Tiles
+    uniqueID: 529091709
+    locked: 0
   m_RenderingLayers:
   - Default
