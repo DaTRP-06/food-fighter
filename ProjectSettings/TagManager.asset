@@ -7,6 +7,8 @@ TagManager:
   - Enemy
   - Collectible
   - Decoration
+  - Coin
+  - Diamond
   layers:
   - Default
   - TransparentFX

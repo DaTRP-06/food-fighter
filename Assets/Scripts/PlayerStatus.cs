@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 public class PlayerStatus : MonoBehaviour
 {
@@ -9,6 +11,7 @@ public class PlayerStatus : MonoBehaviour
 
     [Header("UI Reference")]
     public HealthUI healthUI;
+    public GameObject gameOverPanel;
 
     [Header("Knockback Settings")]
     public Vector2 knockbackForce = new Vector2(7f, 9f);
@@ -39,14 +42,14 @@ public class PlayerStatus : MonoBehaviour
         playerMovement = GetComponent<PlayerMovement>();
         playerCollider = GetComponent<Collider2D>();
 
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+
         if (healthUI != null)
         {
             healthUI.InitializeHearts(maxHealth);
-        }
-
-        if (sprite != null)
-        {
-            originalMaterial = sprite.material;
         }
 
         if (sprite != null)
@@ -61,6 +64,15 @@ public class PlayerStatus : MonoBehaviour
             {
                 whiteFlashMaterial = new Material(guiShader);
             }
+        }
+    }
+
+    private void Update()
+    {
+        if (isDead && Keyboard.current != null && Keyboard.current.anyKey.wasPressedThisFrame)
+        {
+            Time.timeScale = 1f;
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 
@@ -137,7 +149,17 @@ public class PlayerStatus : MonoBehaviour
             rb.bodyType = RigidbodyType2D.Static;
         }
 
-        StartCoroutine(DieSequence());
+        if (sprite != null)
+        {
+            sprite.color = Color.red;
+        }
+
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(true);
+        }
+
+        Time.timeScale = 0f;
     }
 
     private IEnumerator DieSequence()
