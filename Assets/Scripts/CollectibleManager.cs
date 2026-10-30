@@ -5,8 +5,22 @@ using UnityEngine.InputSystem;
 
 public class CollectibleManager : MonoBehaviour
 {
-    public int itemCount = 0;
-    public int targetCount = 5;
+    public int diamondCount = 0;
+    public int targetDiamonds = 2;
+    public int points = 0;
+    public int targetPoints = 800;
+
+    public int itemCount
+    {
+        get => diamondCount;
+        set => diamondCount = value;
+    }
+
+    public int targetCount
+    {
+        get => targetDiamonds;
+        set => targetDiamonds = value;
+    }
 
     public TextMeshProUGUI countText; 
     public GameObject winPanel;       
@@ -25,10 +39,10 @@ public class CollectibleManager : MonoBehaviour
     {
         if (countText != null)
         {
-            countText.text = "Saved: " + itemCount + " / " + targetCount;
+            countText.text = "Diamonds: " + diamondCount + " / " + targetDiamonds + "\nPoints: " + points + " / " + targetPoints;
         }
 
-        if (itemCount >= targetCount && !gameWon)
+        if (diamondCount >= targetDiamonds && points >= targetPoints && !gameWon)
         {
             gameWon = true;
             winPanel.SetActive(true);
