@@ -138,9 +138,20 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Collectible"))
+        if (other.CompareTag("Coin") || other.gameObject.name.IndexOf("Coin", System.StringComparison.OrdinalIgnoreCase) >= 0)
         {
-            cm.itemCount++;
+            if (cm != null)
+            {
+                cm.points += 10;
+            }
+            Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("Diamond") || other.CompareTag("Collectible") || other.gameObject.name.IndexOf("Diamond", System.StringComparison.OrdinalIgnoreCase) >= 0 || other.gameObject.name.IndexOf("Carrot", System.StringComparison.OrdinalIgnoreCase) >= 0)
+        {
+            if (cm != null)
+            {
+                cm.diamondCount++;
+            }
             Destroy(other.gameObject);
         }
     }

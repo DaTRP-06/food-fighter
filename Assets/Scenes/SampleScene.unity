@@ -5534,7 +5534,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5122218984894612307, guid: 233ca15d0030c6f42b19740e5332ad16, type: 3}
       propertyPath: m_Name
-      value: Carrot Idle (5)
+      value: Diamond (5)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6015,7 +6015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5122218984894612307, guid: 233ca15d0030c6f42b19740e5332ad16, type: 3}
       propertyPath: m_Name
-      value: Carrot Idle (4)
+      value: Diamond (4)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -53931,9 +53931,10 @@ GameObject:
   - component: {fileID: 976399653}
   - component: {fileID: 976399652}
   - component: {fileID: 976399651}
+  - component: {fileID: 976399655}
   m_Layer: 0
   m_Name: Coin
-  m_TagString: Untagged
+  m_TagString: Collectible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -54050,6 +54051,42 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &976399655
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 976399650}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &991864364
 GameObject:
   m_ObjectHideFlags: 0
@@ -54625,7 +54662,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5122218984894612307, guid: 233ca15d0030c6f42b19740e5332ad16, type: 3}
       propertyPath: m_Name
-      value: Carrot Idle (3)
+      value: Diamond (3)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -57441,7 +57478,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5122218984894612307, guid: 233ca15d0030c6f42b19740e5332ad16, type: 3}
       propertyPath: m_Name
-      value: Carrot Idle (2)
+      value: Diamond (2)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -57492,8 +57529,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1be0d50f05c4d8a498c9fbbdeeb335ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CollectibleManager
+  diamondCount: 0
+  targetDiamonds: 2
+  points: 0
+  targetPoints: 800
   itemCount: 0
-  targetCount: 5
+  targetCount: 2
   countText: {fileID: 2090901871}
   winPanel: {fileID: 703824489}
 --- !u!1001 &1669746000
@@ -59951,7 +59992,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5122218984894612307, guid: 233ca15d0030c6f42b19740e5332ad16, type: 3}
       propertyPath: m_Name
-      value: Carrot Idle (1)
+      value: Diamond (1)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -60613,7 +60654,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5122218984894612307, guid: 233ca15d0030c6f42b19740e5332ad16, type: 3}
       propertyPath: m_Name
-      value: Carrot Idle
+      value: Diamond
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

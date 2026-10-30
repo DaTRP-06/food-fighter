@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4698885720191770393}
   - component: {fileID: 1066697962340888968}
   m_Layer: 0
-  m_Name: Carrot Idle
+  m_Name: Diamond
   m_TagString: Collectible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
