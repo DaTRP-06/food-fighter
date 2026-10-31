@@ -72,7 +72,6 @@ public class PlayerMovement : MonoBehaviour
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
             AudioManager.PlayJump();
-            Debug.Log("JUMP dipanggil pada " + Time.time);
         }
 
         UpdateAnimationState(moveInput);
