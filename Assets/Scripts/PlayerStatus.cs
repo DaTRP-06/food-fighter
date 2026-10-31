@@ -18,8 +18,12 @@ public class PlayerStatus : MonoBehaviour
     public float knockbackDuration = 0.25f;
 
     [Header("Hit Flash Settings")]
-    public float flashDuration = 0.15f;
+    public float flashDuration = 0.18f;
     public Material whiteFlashMaterial;
+
+    [Header("Respawn Settings")]
+    public float respawnInvulnerableDuration = 1f;
+    public float respawnFlashDelay = 0.75f;
 
     [Header("Death Settings")]
     public int deathBlinkCount = 5;
@@ -31,12 +35,14 @@ public class PlayerStatus : MonoBehaviour
     private PlayerMovement playerMovement;
     private Collider2D playerCollider;
 
+    private Vector3 startPosition;
     private bool isInvulnerable = false;
     private bool isDead = false;
 
     private void Start()
     {
         currentHealth = maxHealth;
+        startPosition = transform.position;
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         playerMovement = GetComponent<PlayerMovement>();
@@ -97,6 +103,52 @@ public class PlayerStatus : MonoBehaviour
         StartCoroutine(FlashWhite());
     }
 
+    public void FallIntoVoid(int damage, Vector3? respawnPosition)
+    {
+        if (isDead) return;
+
+        currentHealth -= damage;
+
+        if (healthUI != null)
+        {
+            healthUI.UpdateHearts(currentHealth);
+        }
+
+        if (currentHealth <= 0)
+        {
+            Die();
+            return;
+        }
+
+        Vector3 target = respawnPosition ?? startPosition;
+        Respawn(target);
+    }
+
+    private void Respawn(Vector3 position)
+    {
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        transform.position = new Vector3(position.x, position.y, transform.position.z);
+
+        if (playerMovement != null)
+        {
+            playerMovement.isKnockedBack = false;
+        }
+
+        StartCoroutine(RespawnInvulnerability());
+        StartCoroutine(DelayedFlash());
+    }
+
+    private IEnumerator RespawnInvulnerability()
+    {
+        isInvulnerable = true;
+        yield return new WaitForSeconds(respawnInvulnerableDuration);
+        if (!isDead) isInvulnerable = false;
+    }
+
     private IEnumerator ApplyKnockback(Vector3 attackerPosition)
     {
         isInvulnerable = true;
@@ -133,6 +185,16 @@ public class PlayerStatus : MonoBehaviour
                 sprite.color = originalColor;
             }
         }
+    }
+
+    private IEnumerator DelayedFlash()
+    {
+        yield return new WaitForSeconds(respawnFlashDelay);
+
+        // Batalkan kilatan kalau player sudah mati selama menunggu
+        if (isDead) yield break;
+
+        yield return StartCoroutine(FlashWhite());
     }
 
     private void Die()

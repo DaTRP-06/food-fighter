@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float attackDuration = 0.3f;
     [SerializeField] private float spawnDelay = 0.02f;
     private float attackTimer = 0f;
-
+    private float firePointOffsetX;
+    private int shootDirection = 1;
     private Rigidbody2D rb;
     private BoxCollider2D coll;
     private SpriteRenderer sprite;
@@ -30,6 +32,11 @@ public class PlayerMovement : MonoBehaviour
         coll = GetComponent<BoxCollider2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+
+        if (firePoint != null)
+        {
+            firePointOffsetX = Mathf.Abs(firePoint.localPosition.x);
+        }
     }
 
     void Update()
@@ -74,18 +81,22 @@ public class PlayerMovement : MonoBehaviour
         anim.SetTrigger("attack");
         anim.SetInteger("state", 99);
         attackTimer = attackDuration;
-
+        shootDirection = sprite.flipX ? -1 : 1;
         Invoke(nameof(SpawnFireball), spawnDelay);
     }
 
     private void SpawnFireball()
     {
-        GameObject bullet = Instantiate(projectilePrefab, firePoint.position, firePoint.rotation);
+        if (!enabled || projectilePrefab == null || firePoint == null) return;
+        Vector3 localOffset = new Vector3(
+            firePointOffsetX * shootDirection,
+            firePoint.localPosition.y,
+            firePoint.localPosition.z);
+        Vector3 spawnPosition = transform.TransformPoint(localOffset);
 
-        if (sprite.flipX == true)
-        {
-            bullet.transform.Rotate(0f, 180f, 0f);
-        }
+        Quaternion spawnRotation = Quaternion.Euler(0f, shootDirection == -1 ? 180f : 0f, 0f);
+
+        Instantiate(projectilePrefab, spawnPosition, spawnRotation);
     }
 
     private void UpdateAnimationState(float moveInput)
