@@ -41,12 +41,17 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (isKnockedBack) return;
+        if (isKnockedBack)
+        {
+            AudioManager.SetWalking(false);
+            return;
+        }
 
         if (attackTimer > 0f)
         {
             attackTimer -= Time.deltaTime;
             rb.linearVelocity = new Vector2(0f, rb.linearVelocity.y);
+            AudioManager.SetWalking(false);
             return;
         }
 
@@ -66,9 +71,11 @@ public class PlayerMovement : MonoBehaviour
         if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame && IsGrounded())
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpHeight);
+            AudioManager.PlayJump();
         }
 
         UpdateAnimationState(moveInput);
+        AudioManager.SetWalking(moveInput != 0f && IsGrounded());
 
         if (Keyboard.current != null && Keyboard.current.zKey.wasPressedThisFrame)
         {
@@ -81,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
         anim.SetTrigger("attack");
         anim.SetInteger("state", 99);
         attackTimer = attackDuration;
+        AudioManager.PlayAttack();
         shootDirection = sprite.flipX ? -1 : 1;
         Invoke(nameof(SpawnFireball), spawnDelay);
     }
@@ -97,6 +105,12 @@ public class PlayerMovement : MonoBehaviour
         Quaternion spawnRotation = Quaternion.Euler(0f, shootDirection == -1 ? 180f : 0f, 0f);
 
         Instantiate(projectilePrefab, spawnPosition, spawnRotation);
+    }
+
+    private void OnDisable()
+    {
+        // Player mati / script dimatikan: hentikan suara langkah
+        AudioManager.SetWalking(false);
     }
 
     private void UpdateAnimationState(float moveInput)
@@ -155,6 +169,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 cm.points += 10;
             }
+            AudioManager.PlayCollect();
             Destroy(other.gameObject);
         }
         else if (other.CompareTag("Diamond") || other.CompareTag("Collectible") || other.gameObject.name.IndexOf("Diamond", System.StringComparison.OrdinalIgnoreCase) >= 0 || other.gameObject.name.IndexOf("Carrot", System.StringComparison.OrdinalIgnoreCase) >= 0)
@@ -163,6 +178,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 cm.diamondCount++;
             }
+            AudioManager.PlayCollect();
             Destroy(other.gameObject);
         }
     }

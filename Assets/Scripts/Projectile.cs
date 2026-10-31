@@ -17,6 +17,8 @@ public class Projectile : MonoBehaviour
     {
         if (hitInfo.CompareTag("Enemy"))
         {
+            AudioManager.PlayFireballHit();
+            AudioManager.PlayEnemyDeath();
             Destroy(hitInfo.gameObject);
 
             Destroy(gameObject);
