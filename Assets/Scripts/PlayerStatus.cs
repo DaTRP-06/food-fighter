@@ -87,6 +87,7 @@ public class PlayerStatus : MonoBehaviour
         if (isInvulnerable || isDead) return;
 
         currentHealth -= damage;
+        AudioManager.PlayPlayerDamage();
 
         if (healthUI != null)
         {
@@ -108,6 +109,7 @@ public class PlayerStatus : MonoBehaviour
         if (isDead) return;
 
         currentHealth -= damage;
+        AudioManager.PlayPlayerDamage();
 
         if (healthUI != null)
         {
